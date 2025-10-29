@@ -1,0 +1,51 @@
+body {
+  font-family: Poppins, sans-serif;
+  background: #f5f8ff;
+  color: #222;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #004aad;
+  color: white;
+  padding: 1.2em;
+  border-radius: 0 0 20px 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: 500;
+}
+
+section {
+  padding: 20px;
+}
+
+#chatbox {
+  border: 1px solid #ccc;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  display: inline-block;
+  width: 90%;
+  max-width: 400px;
+}
+
+#messages {
+  height: 150px;
+  overflow-y: auto;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+footer {
+  background: #004aad;
+  color: white;
+  padding: 10px;
+  margin-top: 20px;
+}
