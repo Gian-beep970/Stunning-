@@ -1,45 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SpiritBridge | Faith. Connection. Growth.</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <h1>🌉 SpiritBridge</h1>
-    <p>Connecting hearts, building faith</p>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Login</a>
-      <a href="#">Donations</a>
-      <a href="#">Bible Study</a>
-      <a href="#">Ethan AI</a>
-    </nav>
-  </header>
+<h1>Welcome to SpiritBridge</h1>
+<button id="coinBtn">Buy Coin</button>
+<p id="balance">Balance: 0 coins</p>
 
-  <main>
-    <section id="home">
-      <h2>Welcome to SpiritBridge</h2>
-      <p>Your digital youth fellowship app — faith, transparency, and connection all in one place.</p>
-    </section>
+<input type="password" id="pinInput" placeholder="Enter PIN to View Balance">
+<button id="pinBtn">Check Balance</button>
 
-    <section id="ethan">
-      <h2>🕊️ Ethan (AI Member)</h2>
-      <p>Tag me using <strong>@Ethan</strong> to ask Biblical or critical questions.</p>
-      <div id="chatbox">
-        <div id="messages"></div>
-        <input type="text" id="userInput" placeholder="Ask Ethan something..." />
-        <button onclick="sendMessage()">Send</button>
-      </div>
-    </section>
-  </main>
+<div id="ethanArea">
+  <p><strong>Ethan:</strong> Ready to help! Type '@Ethan [your question]'</p>
+  <input id="ethanInput" placeholder="Ask Ethan something..." />
+  <button id="ethanBtn">Send</button>
+  <div id="ethanReply"></div>
+</div>
 
-  <footer>
-    <p>© 2025 SpiritBridge | PCEA Center Youth</p>
-  </footer>
+<script>
+let balance = 0;
+const pin = "1234"; // shared access PIN
 
-  <script src="script.js"></script>
-</body>
-</html>
+document.getElementById("coinBtn").onclick = () => {
+  balance += 10;
+  alert("You bought 10 coins!");
+  document.getElementById("balance").innerText = "Balance: " + balance + " coins";
+};
+
+document.getElementById("pinBtn").onclick = () => {
+  const userPin = document.getElementById("pinInput").value;
+  if (userPin === pin) {
+    alert("Access granted! Total Balance: " + balance + " coins");
+  } else {
+    alert("Wrong PIN!");
+  }
+};
+
+document.getElementById("ethanBtn").onclick = () => {
+  const input = document.getElementById("ethanInput").value.toLowerCase();
+  const replyArea = document.getElementById("ethanReply");
+  if (input.includes("proverb")) {
+    replyArea.innerText = "Ethan: Proverbs teaches us wisdom — do you have a specific verse?";
+  } else if (input.includes("god")) {
+    replyArea.innerText = "Ethan: God’s love never fails.";
+  } else {
+    replyArea.innerText = "Ethan: I'm learning — tell me more!";
+  }
+};
+</script>
