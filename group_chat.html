@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpiritBridge Group Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ece5dd;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .chat-header {
+      background-color: #075E54;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .chat-header img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .chat-header div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header .status {
+      font-size: 0.8em;
+      color: #d0ffd6;
+    }
+
+    /* Chat area */
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      background-image: url('https://i.imgur.com/ut0zJ3G.png');
+      background-size: cover;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      display: flex;
+      align-items: flex-end;
+      margin: 5px 0;
+      position: relative;
+      max-width: 80%;
+    }
+
+    .profile-pic {
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      margin-right: 8px;
+    }
+
+    .bubble {
+      border-radius: 10px;
+      padding: 10px;
+      background-color: #ffffff;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .user .bubble {
+      background-color: #dcf8c6;
+      margin-left: auto;
+    }
+
+    .name {
+      font-weight: bold;
+      font-size: 0.9em;
+      color: #075E54;
+    }
+
+    .timestamp {
+      font-size: 0.7em;
+      color: gray;
+      text-align: right;
+      margin-top: 2px;
+    }
+
+    /* Input area */
+    .input-area {
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      padding: 10px;
+      border-top: 1px solid #ccc;
+    }
+
+    .input-area input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      border-radius: 20px;
+      background-color: #f0f0f0;
+      margin-right: 10px;
+      font-size: 1em;
+    }
+
+    .input-area button {
+      background-color: #128C7E;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .input-area button:hover {
+      background-color: #075E54;
+    }
+
+    /* Reply preview */
+    .reply-preview {
+      font-size: 0.85em;
+      background: #f0f0f0;
+      border-left: 3px solid #128C7E;
+      padding: 5px;
+      margin-bottom: 5px;
+      color: #333;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-header">
+    <img src="https://i.imgur.com/NsFZ7wM.png" alt="Group Icon" />
+    <div>
+      <strong>SpiritBridge Youth Chat</strong>
+      <span class="status" id="status">12 members, Ethan online</span>
+    </div>
+  </div>
+
+  <div class="chat-container" id="chat"></div>
+
+  <div class="input-area">
+    <div class="reply-preview" id="replyBox"></div>
+    <input type="text" id="userInput" placeholder="Type a message..." onkeypress="handleKey(event)">
+    <button onclick="sendMessage()">➤</button>
+  </div>
+
+  <script src="ai_assistant.js"></script>
+  <script>
+    const chat = document.getElementById("chat");
+    const replyBox = document.getElementById("replyBox");
+    let replyTo = null;
+
+    // Demo group members
+    const members = [
+      { name: "Ian", pic: "https://i.imgur.com/6VBx3io.png" },
+      { name: "Lydia", pic: "https://i.imgur.com/xYtYfR2.png" },
+      { name: "Ethan (AI)", pic: "https://i.imgur.com/LPVjr8k.png" },
+    ];
+
+    function appendMessage(sender, text, isUser = false, replyText = null) {
+      const message = document.createElement("div");
+      message.classList.add("message");
+      if (isUser) message.classList.add("user");
+
+      const img = document.createElement("img");
+      img.src = sender.pic;
+      img.classList.add("profile-pic");
+
+      const bubble = document.createElement("div");
+      bubble.classList.add("bubble");
+
+      if (replyText) {
+        const reply = document.createElement("div");
+        reply.style.borderLeft = "3px solid #128C7E";
+        reply.style.fontSize = "0.8em";
+        reply.style.color = "gray";
+        reply.style.paddingLeft = "5px";
+        reply.innerText = "↪ " + replyText;
+        bubble.appendChild(reply);
+      }
+
+      const name = document.createElement("div");
+      name.classList.add("name");
+      name.innerText = sender.name;
+
+      const textEl = document.createElement("div");
+      textEl.innerText = text;
+
+      const time = document.createElement("div");
+      time.classList.add("timestamp");
+      const now = new Date();
+      time.innerText = now.getHours() + ":" + String(now.getMinutes()).padStart(2, "0");
+
+      bubble.appendChild(name);
+      bubble.appendChild(textEl);
+      bubble.appendChild(time);
+
+      message.appendChild(img);
+      message.appendChild(bubble);
+      chat.appendChild(message);
+      chat.scrollTop = chat.scrollHeight;
+
+      bubble.addEventListener("dblclick", () => prepareReply(sender.name, text));
+    }
+
+    function prepareReply(name, text) {
+      replyBox.style.display = "block";
+      replyBox.innerText = `Replying to ${name}: "${text}"`;
+      replyTo = text;
+    }
+
+    function clearReply() {
+      replyBox.style.display = "none";
+      replyTo = null;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById("userInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage(members[0], text, true, replyTo);
+      input.value = "";
+      clearReply();
+
+      // AI (Ethan) responds
+      const reply = await askAI(text);
+      appendMessage(members[2], reply);
+    }
+
+    function handleKey(event) {
+      if (event.key === "Enter") sendMessage();
+    }
+  </script>
+</body>
+</html>
