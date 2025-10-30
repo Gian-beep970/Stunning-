@@ -1,45 +1,98 @@
-<h1>Welcome to SpiritBridge</h1>
-<button id="coinBtn">Buy Coin</button>
-<p id="balance">Balance: 0 coins</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpiritBridge Community</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #007bff, #00c6ff);
+      color: white;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      padding: 20px;
+      background: rgba(255,255,255,0.1);
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    button {
+      background: white;
+      color: #007bff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 1em;
+    }
+    button:hover {
+      background: #007bff;
+      color: white;
+    }
+    #chatbox {
+      margin: 20px auto;
+      width: 80%;
+      max-width: 400px;
+      height: 300px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px;
+      overflow-y: auto;
+      text-align: left;
+    }
+    #inputArea {
+      margin-top: 10px;
+    }
+    input {
+      padding: 10px;
+      width: 70%;
+      border-radius: 8px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <header>🌍 SpiritBridge Community</header>
 
-<input type="password" id="pinInput" placeholder="Enter PIN to View Balance">
-<button id="pinBtn">Check Balance</button>
+  <button onclick="showAlert('Welcome to SpiritBridge!')">Home</button>
+  <button onclick="showAlert('Upcoming Events: Youth Worship Night!')">Events</button>
+  <button onclick="showAlert('Donate through your local church or Paybill')">Contribute</button>
 
-<div id="ethanArea">
-  <p><strong>Ethan:</strong> Ready to help! Type '@Ethan [your question]'</p>
-  <input id="ethanInput" placeholder="Ask Ethan something..." />
-  <button id="ethanBtn">Send</button>
-  <div id="ethanReply"></div>
-</div>
+  <h2>💬 Chat with Ethan AI</h2>
+  <div id="chatbox"></div>
 
-<script>
-let balance = 0;
-const pin = "1234"; // shared access PIN
+  <div id="inputArea">
+    <input type="text" id="userInput" placeholder="Type your message..." />
+    <button onclick="talk()">Send</button>
+  </div>
 
-document.getElementById("coinBtn").onclick = () => {
-  balance += 10;
-  alert("You bought 10 coins!");
-  document.getElementById("balance").innerText = "Balance: " + balance + " coins";
-};
+  <script>
+    function showAlert(message) {
+      alert(message);
+    }
 
-document.getElementById("pinBtn").onclick = () => {
-  const userPin = document.getElementById("pinInput").value;
-  if (userPin === pin) {
-    alert("Access granted! Total Balance: " + balance + " coins");
-  } else {
-    alert("Wrong PIN!");
-  }
-};
+    function talk() {
+      let input = document.getElementById('userInput').value.trim();
+      if (!input) return;
 
-document.getElementById("ethanBtn").onclick = () => {
-  const input = document.getElementById("ethanInput").value.toLowerCase();
-  const replyArea = document.getElementById("ethanReply");
-  if (input.includes("proverb")) {
-    replyArea.innerText = "Ethan: Proverbs teaches us wisdom — do you have a specific verse?";
-  } else if (input.includes("god")) {
-    replyArea.innerText = "Ethan: God’s love never fails.";
-  } else {
-    replyArea.innerText = "Ethan: I'm learning — tell me more!";
-  }
-};
-</script>
+      let chatbox = document.getElementById('chatbox');
+      chatbox.innerHTML += `<p><b>You:</b> ${input}</p>`;
+
+      let reply = "Ethan AI: ";
+      if (input.toLowerCase().includes("hello")) reply += "Hey there, friend! 🙌";
+      else if (input.toLowerCase().includes("who are you")) reply += "I’m Ethan AI — your SpiritBridge assistant.";
+      else if (input.toLowerCase().includes("pray")) reply += "Let's pray together 🙏. 'Lord, guide our steps and fill our hearts with peace.'";
+      else reply += "I'm still learning, but I'm here for you 💙";
+
+      chatbox.innerHTML += `<p>${reply}</p>`;
+      document.getElementById('userInput').value = '';
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+  </script>
+</body>
+</html>
