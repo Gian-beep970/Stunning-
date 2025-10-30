@@ -1,51 +1,58 @@
+/* SpiritBridge Style */
 body {
-  font-family: Poppins, sans-serif;
-  background: #f5f8ff;
-  color: #222;
-  text-align: center;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #007bff, #003f8a);
+  color: white;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
-header {
-  background: #004aad;
-  color: white;
-  padding: 1.2em;
-  border-radius: 0 0 20px 20px;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  margin: 0 10px;
-  font-weight: 500;
-}
-
-section {
-  padding: 20px;
-}
-
-#chatbox {
-  border: 1px solid #ccc;
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-  display: inline-block;
+.container {
+  margin: 80px auto;
   width: 90%;
-  max-width: 400px;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-#messages {
-  height: 150px;
-  overflow-y: auto;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 10px;
-  text-align: left;
+button {
+  background-color: #00c2ff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #00a1cc;
+}
+
+input {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  text-align: center;
+}
+
+.message {
+  margin: 15px auto;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 12px;
+  color: #fff;
 }
 
 footer {
-  background: #004aad;
-  color: white;
-  padding: 10px;
-  margin-top: 20px;
+  margin-top: 40px;
+  font-size: 13px;
+  opacity: 0.8;
 }
