@@ -1,98 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SpiritBridge Community</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom right, #007bff, #00c6ff);
-      color: white;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      padding: 20px;
-      background: rgba(255,255,255,0.1);
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-    button {
-      background: white;
-      color: #007bff;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 20px;
-      margin: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      font-size: 1em;
-    }
-    button:hover {
-      background: #007bff;
-      color: white;
-    }
-    #chatbox {
-      margin: 20px auto;
-      width: 80%;
-      max-width: 400px;
-      height: 300px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 10px;
-      overflow-y: auto;
-      text-align: left;
-    }
-    #inputArea {
-      margin-top: 10px;
-    }
-    input {
-      padding: 10px;
-      width: 70%;
-      border-radius: 8px;
-      border: none;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SpiritBridge — PCEA Center Youth</title>
+<style>
+  :root{
+    --blue1:#002b7f;
+    --blue2:#0066cc;
+    --accent:#ffdf00;
+    --card-bg: rgba(255,255,255,0.06);
+    --glass: rgba(255,255,255,0.08);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background: linear-gradient(160deg,var(--blue1),var(--blue2));
+    color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  }
+  header{width:100%;padding:18px 16px;text-align:center;background:linear-gradient(180deg,rgba(0,0,0,0.08),transparent);box-shadow:0 2px 10px rgba(0,0,0,0.15)}
+  header h1{margin:0;font-size:20px;letter-spacing:0.6px}
+  .container{width:100%;max-width:960px;padding:16px;flex:1;display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+  .card{background:var(--card-bg);border-radius:14px;padding:14px;width:100%;max-width:420px;box-shadow:0 6px 20px rgba(0,0,0,0.18)}
+  .muted{opacity:0.9;color:rgba(255,255,255,0.9)}
+  .btn{background:var(--accent);color:var(--blue1);border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+  .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.12)}
+  input,textarea,select{width:100%;padding:10px;border-radius:10px;border:none;background:var(--glass);color:#fff;margin-top:8px}
+  .small{font-size:13px;opacity:0.95}
+  .row{display:flex;gap:8px;align-items:center}
+  .center{text-align:center}
+  #chatbox{height:340px;overflow:auto;padding:10px;border-radius:10px;background:rgba(0,0,0,0.06)}
+  .msg{margin:8px 0;padding:8px 10px;border-radius:10px;max-width:85%;}
+  .msg.you{background:rgba(255,255,255,0.12);margin-left:auto;color:#fff}
+  .msg.ethan{background:rgba(0,0,0,0.12);color:#fff}
+  .login-card{max-width:420px}
+  footer{padding:12px;color:rgba(255,255,255,0.85);font-size:13px;text-align:center}
+  .link{color:var(--accent);cursor:pointer}
+  @media(min-width:900px){
+    .container{justify-content:space-between}
+    .card{width:48%}
+    .login-card{width:32%}
+  }
+</style>
 </head>
 <body>
-  <header>🌍 SpiritBridge Community</header>
+<header>
+  <h1>🌉 SpiritBridge — PCEA Center Youth</h1>
+  <div class="small muted">Connecting hearts, building faith</div>
+</header>
 
-  <button onclick="showAlert('Welcome to SpiritBridge!')">Home</button>
-  <button onclick="showAlert('Upcoming Events: Youth Worship Night!')">Events</button>
-  <button onclick="showAlert('Donate through your local church or Paybill')">Contribute</button>
+<div class="container">
+  <!-- LEFT: Home / Verse / Prayer -->
+  <div class="card" id="homeCard">
+    <h2>Welcome</h2>
+    <p id="welcomeText" class="muted small">Sign in to enter the fellowship space.</p>
 
-  <h2>💬 Chat with Ethan AI</h2>
-  <div id="chatbox"></div>
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.06);margin:12px 0">
 
-  <div id="inputArea">
-    <input type="text" id="userInput" placeholder="Type your message..." />
-    <button onclick="talk()">Send</button>
+    <h3>📖 Verse of the Day</h3>
+    <div id="verseBox" style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.03);min-height:72px">
+      <div id="verseText" class="small">(Log in to see today's verse)</div>
+    </div>
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.06);margin:12px 0">
+
+    <h3>🙏 Prayer Requests</h3>
+    <form id="prayerForm">
+      <input id="prayerInput" placeholder="Share a prayer request..." maxlength="300" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button type="submit" class="btn">Send Prayer</button>
+        <button type="button" class="btn ghost" id="clearPrayersBtn">Clear Local Prayers</button>
+      </div>
+    </form>
+
+    <div id="prayerList" style="margin-top:12px;max-height:180px;overflow:auto"></div>
   </div>
 
-  <script>
-    function showAlert(message) {
-      alert(message);
-    }
+  <!-- RIGHT: Login & Chat -->
+  <div class="card login-card" id="authCard">
+    <!-- login form -->
+    <div id="loginArea">
+      <h3>🔐 Sign In</h3>
+      <input id="nameInput" placeholder="Your name (e.g., Ian)" />
+      <input id="pinInput" placeholder="PIN (ask your leader)" />
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button id="loginBtn" class="btn">Enter SpiritBridge</button>
+        <button id="guestBtn" class="btn ghost">Continue as Guest</button>
+      </div>
+      <div style="margin-top:10px" class="small">Shared PIN for center (example): <strong>center2025</strong></div>
+    </div>
 
-    function talk() {
-      let input = document.getElementById('userInput').value.trim();
-      if (!input) return;
+    <!-- member area -->
+    <div id="memberArea" style="display:none">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <strong id="memberName">Member</strong>
+          <div class="small muted" id="memberRole">Youth</div>
+        </div>
+        <div>
+          <button id="logoutBtn" class="btn ghost">Logout</button>
+        </div>
+      </div>
 
-      let chatbox = document.getElementById('chatbox');
-      chatbox.innerHTML += `<p><b>You:</b> ${input}</p>`;
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.06);margin:12px 0">
 
-      let reply = "Ethan AI: ";
-      if (input.toLowerCase().includes("hello")) reply += "Hey there, friend! 🙌";
-      else if (input.toLowerCase().includes("who are you")) reply += "I’m Ethan AI — your SpiritBridge assistant.";
-      else if (input.toLowerCase().includes("pray")) reply += "Let's pray together 🙏. 'Lord, guide our steps and fill our hearts with peace.'";
-      else reply += "I'm still learning, but I'm here for you 💙";
+      <h3>💬 Fellowship Chat</h3>
+      <div id="chatbox"></div>
 
-      chatbox.innerHTML += `<p>${reply}</p>`;
-      document.getElementById('userInput').value = '';
-      chatbox.scrollTop = chatbox.scrollHeight;
-    }
-  </script>
+      <div style="margin-top:10px" class="row">
+        <input id="chatInput" placeholder="Write a message. Tag @Ethan for help..." />
+        <button id="sendBtn" class="btn">Send</button>
+      </div>
+
+      <div style="margin-top:8px" class="small muted center">
+        Ethan appears when tagged: <span class="link" id="howTo">How to tag</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extra card: info or instructions (mobile shows below) -->
+  <div class="card" id="infoCard" style="display:none">
+    <h3>Info</h3>
+    <p class="small muted">This version runs on your browser. No payments or personal data leave your device. Leaders can collect prayer requests manually from the device or by screenshot.</p>
+  </div>
+</div>
+
+<footer>© 2025 SpiritBridge • PCEA Center Youth</footer>
+
+<script>
+/* ====== Data and helpers ====== */
+const SHARED_PIN = "center2025"; // shared PIN to sign in
+const storage = window.localStorage;
+const verses = [
+  {v:"Trust in the LORD with all your heart and lean not on your own understanding.", r:"Proverbs 3:5"},
+  {v:"Be strong and courageous. Do not be afraid; do not be discouraged, for the LORD your God will be with you wherever you go.", r:"Joshua 1:9"},
+  {v:"I can do all things through Christ who strengthens me.", r:"Philippians 4:13"},
+  {v:"The LORD is my shepherd; I shall not want.", r:"Psalm 23:1"},
+  {v:"For God so loved the world that he gave his one and only Son...", r:"John 3:16"},
+  {v:"Faith is the assurance of things hoped for, the conviction of things not seen.", r:"Hebrews 11:1"},
+  {v:"In all your ways acknowledge him, and he will make your paths straight.", r:"Proverbs 3:6"},
+  {v:"Cast all your anxiety on him because he cares for you.", r:"1 Peter 5:7"}
+];
+
+function save(key,val){ storage.setItem(key, JSON.stringify(val)); }
+function load(key,def=null){ try{ const v = storage.getItem(key); return v? JSON.parse(v): def; }catch(e){return def;} }
+
+/* ====== Verse of the Day ====== */
+function pickVerse(){
+  const idx = Math.floor(Math.random()*verses.length);
+  const chosen = verses[idx];
+  document.getElementById('verseText').innerHTML = `<em>"${chosen.v}"</em><div style="margin-top:8px;font-weight:600">${chosen.r}</div>`;
+}
+
+/* ====== Prayer Requests ====== */
+let prayers = load('spirit_prayers', []);
+function renderPrayers(){
+  const el = document.getElementById('prayerList');
+  if(!prayers || prayers.length===0){ el.innerHTML = '<div class="small muted">No prayers yet.</div>'; return; }
+  el.innerHTML = prayers.map(p=>`<div style="background:rgba(0,0,0,0.06);padding:10px;border-radius:8px;margin-bottom:8px"><div style="font-weight:600">${escapeHtml(p.name)}</div><div class="small" style="opacity:0.95">${escapeHtml(p.text)}</div><div class="small muted" style="margin-top:6px">${new Date(p.ts).toLocaleString()}</div></div>`).join('');
+}
+
+document.getElementById('prayerForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const txt = document.getElementById('prayerInput').value.trim();
+  const user = load('spirit_user') || {name:'Guest'};
+  if(!txt) return alert('Please write a short prayer request.');
+  prayers.unshift({name:user.name||'Guest', text:txt, ts:Date.now()});
+  save('spirit_prayers', prayers);
+  document.getElementById('prayerInput').value='';
+  renderPrayers();
+});
+
+/* clear local prayers (leader can do later) */
+document.getElementById('clearPrayersBtn').addEventListener('click', ()=>{
+  if(confirm('Clear all locally-stored prayer requests? This cannot be undone.')){ prayers=[]; save('spirit_prayers',prayers); renderPrayers(); }
+});
+
+/* ====== Simple login (localStorage) ====== */
+function showMemberArea(user){
+  document.getElementById('loginArea').style.display='none';
+  document.getElementById('memberArea').style.display='block';
+  document.getElementById('memberName').innerText = user.name || 'Member';
+  document.getElementById('welcomeText').innerText = `Welcome, ${user.name}!`;
+  pickVerse();
+  renderPrayers();
+  loadChat();
+}
+
+function logout(){
+  save('spirit_user', null);
+  document.getElementById('loginArea').style.display='block';
+  document.getElementById('memberArea').style.display='none';
+  document.getElementById('welcomeText').innerText = 'Sign in to enter the fellowship space.';
+}
+
+/* login button */
+document.getElementById('loginBtn').addEventListener('click', ()=>{
+  const name = document.getElementById('nameInput').value.trim();
+  const pin = document.getElementById('pinInput').value.trim();
+  if(!name) return alert('Please enter your name.');
+  if(pin !== SHARED_PIN) return alert('Wrong PIN. Ask your leader for the correct PIN.');
+  const user = {name, ts:Date.now()};
+  save('spirit_user', user);
+  showMemberArea(user);
+});
+
+/* guest */
+document.getElementById('guestBtn').addEventListener('click', ()=>{
+  const user = {name:'Guest', ts:Date.now()};
+  save('spirit_user', user);
+  showMemberArea(user);
+});
+
+document.getElementById('logoutBtn').addEventListener('click', ()=>{
+  logout();
+});
+
+/* ====== Basic chat + Ethan ====== */
+let chat = load('spirit_chat', []);
+const chatbox = document.getElementById('chatbox');
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+function renderChat(){
+  chatbox.innerHTML = chat.map(m=>{
+    const who = m.from==='you' ? 'you' : (m.from==='ethan'?'ethan':'other');
+    const cls = who==='you' ? 'msg you' : 'msg ethan';
+    return `<div class="${cls}"><div style="font-size:13px;font-weight:600">${escapeHtml(m.name|| (m.from==='you'?'You':'Ethan'))}</div><div style="margin-top:6px">${escapeHtml(m.text)}</div><div style="font-size:11px;opacity:0.75;margin-top:6px">${new Date(m.ts).toLocaleTimeString()}</div></div>`;
+  }).join('');
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+function saveChat(){ save('spirit_chat', chat); }
+
+function pushMessage(from, name, text){
+  chat.unshift({from,name,text,ts:Date.now()});
+  if(chat.length>200) chat.pop();
+  saveChat();
+  renderChat();
+}
+
+/* user send */
+document.getElementById('sendBtn').addEventListener('click', ()=>{
+  const user = load('spirit_user') || {name:'Guest'};
+  const input = document.getElementById('chatInput').value.trim();
+  if(!input) return;
+  pushMessage('you', user.name, input);
+  document.getElementById('chatInput').value='';
+  // check for Ethan tag
+  if(input.toLowerCase().includes('@ethan')){
+    setTimeout(()=> respondEthan(input, user.name), 600);
+  } else {
+    // occasional friendly Ethan interjection (20% chance)
+    if(Math.random()<0.18){ setTimeout(()=> respondEthan('@ethan hi', user.name), 1200); }
+  }
+});
+
+/* load chat */
+function loadChat(){ renderChat(); }
+
+/* Ethan responder (local rule-based + bible lookups) */
+function respondEthan(trigger, askerName){
+  // create a response from Ethan
+  const t = trigger.toLowerCase();
+  let reply = '';
+  // direct scripture requests
+  if(t.includes('proverbs') || t.includes('proverb')){
+    reply = "Ethan: Proverbs teaches wisdom and trusting God — any verse in mind?";
+  } else if(t.includes('john 3:16') || t.includes('john 3:16')){
+    reply = "Ethan: John 3:16 — \"For God so loved the world...\" (John 3:16).";
+  } else if(t.includes('how') && t.includes('pray')){
+    reply = "Ethan: A short prayer — 'Lord, guide our hearts. Help us to trust and serve. Amen.'";
+  } else if(t.includes('faith')){
+    reply = "Ethan: Faith is trusting God even when we don't see the road ahead (Hebrews 11).";
+  } else if(t.includes('hello') || t.includes('hi') || t.includes('hey')){
+    reply = `Ethan: Hey ${askerName || 'friend'}! How can I help you today?`;
+  } else {
+    // fallback: include a short scripture randomly
+    const idx = Math.floor(Math.random()*verses.length);
+    const v = verses[idx];
+    reply = `Ethan: ${v.v} — ${v.r}`;
+  }
+  pushMessage('ethan','Ethan', reply);
+}
+
+/* small help popup */
+document.getElementById('howTo').addEventListener('click', ()=> alert("Tag Ethan by writing @Ethan in your message. Example: '@Ethan what does Proverbs 3:5 mean?'"));
+
+/* preserve login on refresh */
+window.addEventListener('load', ()=>{
+  const user = load('spirit_user');
+  if(user) showMemberArea(user);
+  else { document.getElementById('loginArea').style.display='block'; }
+});
+
+/* keyboard send (enter) */
+document.getElementById('chatInput').addEventListener('keypress', e=>{ if(e.key==='Enter'){ document.getElementById('sendBtn').click(); } });
+
+</script>
 </body>
 </html>
