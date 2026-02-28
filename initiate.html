@@ -1,0 +1,12 @@
+From: app.models import db, User, House, HouseImage, Payment, Favorite, Message
+from app.payments import PaymentProcessor
+
+"""Payment initiation template"""
+{% extends "base.html" %}
+
+{% block title %}Initiate Payment - IMPERIAL HOUSE{% endblock %}
+
+{% block content %}
+<!-- This template is rendered by the payment.initiate_payment route -->
+<!-- See landlord/add_house_step3.html for the full payment flow -->
+{% endblock %}

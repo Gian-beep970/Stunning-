@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Add House - Step 3: Payment - IMPERIAL HOUSE{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Progress -->
+            <div class="mb-4">
+                <div class="progress">
+                    <div class="progress-bar bg-danger" style="width: 100%">Step 3 of 3</div>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0"><i class="bi bi-credit-card"></i> Payment - KES {{ amount:,.0f }}</h4>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-info mb-4">
+                        <i class="bi bi-info-circle"></i> <strong>Important:</strong> After successful payment, your house will be automatically published on IMPERIAL HOUSE!
+                    </div>
+
+                    <h5 class="mb-3">Select Payment Method</h5>
+
+                    <form method="POST" action="{{ url_for('payment.initiate_payment', house_id=house.id) }}" id="paymentForm">
+                        <!-- M-PESA -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card payment-option" onclick="selectPayment('mpesa')">
+                                    <div class="card-body text-center py-4">
+                                        <input type="radio" name="payment_method" value="mpesa" id="mpesa" required>
+                                        <label for="mpesa" style="cursor: pointer;">
+                                            <i class="bi bi-phone text-success" style="font-size: 32px;"></i>
+                                            <h5 class="mt-2">M-PESA</h5>
+                                            <p class="text-muted mb-0">{{ payment_methods.mpesa.number }}</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Airtel Money -->
+                            <div class="col-md-6">
+                                <div class="card payment-option" onclick="selectPayment('airtel')">
+                                    <div class="card-body text-center py-4">
+                                        <input type="radio" name="payment_method" value="airtel" id="airtel" required>
+                                        <label for="airtel" style="cursor: pointer;">
+                                            <i class="bi bi-phone text-danger" style="font-size: 32px;"></i>
+                                            <h5 class="mt-2">Airtel Money</h5>
+                                            <p class="text-muted mb-0">{{ payment_methods.airtel.number }}</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CO-OP Bank -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card payment-option" onclick="selectPayment('coop')">
+                                    <div class="card-body text-center py-4">
+                                        <input type="radio" name="payment_method" value="coop" id="coop" required>
+                                        <label for="coop" style="cursor: pointer;">
+                                            <i class="bi bi-bank text-primary" style="font-size: 32px;"></i>
+                                            <h5 class="mt-2">CO-OP Bank</h5>
+                                            <p class="text-muted mb-0">Paybill: {{ payment_methods.coop.paybill }}</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Instructions -->
+                        <div id="instructions" class="alert alert-light border mb-4" style="display: none;">
+                            <div id="instructionsContent"></div>
+                        </div>
+
+                        <!-- Transaction Reference -->
+                        <div class="mb-3">
+                            <label class="form-label">Transaction Reference Code *</label>
+                            <input type="text" name="transaction_reference" class="form-control" 
+                                   placeholder="e.g., DQC2XXXXXXX or receipt number" required>
+                            <small class="text-muted">Copy the confirmation code from your payment receipt</small>
+                        </div>
+
+                        <div class="alert alert-warning mb-4">
+                            <i class="bi bi-exclamation-triangle"></i> <strong>After payment:</strong>
+                            <ul class="mb-0">
+                                <li>Show confirmation receipt with transaction reference</li>
+                                <li>Your house will be verified and published within 24 hours</li>
+                                <li>You'll receive a confirmation email</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('landlord.add_house_step2', house_id=house.id) }}" class="btn btn-secondary">Back</a>
+                            <button type="submit" class="btn btn-danger btn-lg">
+                                <i class="bi bi-check-circle"></i> Complete Payment & Post House
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentMethods = {
+        'mpesa': `<strong>M-PESA Payment Instructions:</strong><br>
+            1. Go to your M-PESA menu<br>
+            2. Select "Send Money"<br>
+            3. Enter: {{ payment_methods.mpesa.number }}<br>
+            4. Amount: KES {{ amount:,.0f }}<br>
+            5. Complete transaction<br>
+            6. Copy reference code and paste above`,
+        'airtel': `<strong>Airtel Money Payment Instructions:</strong><br>
+            1. Go to your Airtel Money menu<br>
+            2. Select "Send Money"<br>
+            3. Enter: {{ payment_methods.airtel.number }}<br>
+            4. Amount: KES {{ amount:,.0f }}<br>
+            5. Complete transaction<br>
+            6. Copy reference code and paste above`,
+        'coop': `<strong>CO-OP Bank Payment Instructions:</strong><br>
+            1. Visit any CO-OP Bank or use online banking<br>
+            2. Paybill: {{ payment_methods.coop.paybill }}<br>
+            3. Account: {{ payment_methods.coop.account }}<br>
+            4. Amount: KES {{ amount:,.0f }}<br>
+            5. Complete transaction<br>
+            6. Get receipt and paste reference code above`
+    };
+
+    function selectPayment(method) {
+        document.getElementById(method).checked = true;
+        const instructions = document.getElementById('instructions');
+        const content = document.getElementById('instructionsContent');
+        content.innerHTML = paymentMethods[method];
+        instructions.style.display = 'block';
+    }
+});
+</script>
+
+<style>
+.payment-option {
+    cursor: pointer;
+    border: 2px solid #e9ecef;
+    transition: all 0.2s;
+}
+
+.payment-option:hover {
+    border-color: #dc3545;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);
+}
+
+.payment-option input[type="radio"]:checked + label,
+.payment-option input[type="radio"]:checked ~ * {
+    color: #dc3545;
+}
+
+.payment-option input[type="radio"]:checked {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+</style>
+{% endblock %}

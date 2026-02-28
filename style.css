@@ -1,0 +1,466 @@
+/* IMPERIAL HOUSE - Main Stylesheet */
+
+:root {
+    --bs-primary-rgb: 13, 110, 253;
+    --bs-danger: #dc3545;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Navigation */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+/* Cards */
+.card {
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+}
+
+/* Buttons */
+.btn {
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Forms */
+.form-control, .form-select {
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Progress Bar */
+.progress {
+    height: 25px;
+    border-radius: 5px;
+}
+
+/* Hero Section */
+.bg-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+}
+
+/* Stat Cards */
+.stat-card {
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.stat-card h3 {
+    color: #dc3545;
+    font-weight: 700;
+}
+
+/* Footer */
+footer {
+    background: #1a1a1a !important;
+    border-top: 3px solid #dc3545;
+}
+
+footer a:hover {
+    color: #dc3545 !important;
+}
+
+/* Search Bar */
+.form-select, .form-control {
+    box-shadow: none;
+}
+
+/* Badges */
+.badge {
+    padding: 0.5rem 0.75rem;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+/* Images */
+img.img-thumbnail {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Pagination */
+.pagination {
+    gap: 5px;
+}
+
+.page-link {
+    color: #dc3545;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.page-link:hover {
+    background-color: #f8f9fa;
+}
+
+.page-item.active .page-link {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Tables */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Modal */
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.modal-header .btn-close:focus {
+    box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .container-fluid {
+        padding: 1rem;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Utility */
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.border-danger {
+    border-color: #dc3545 !important;
+}
+
+/* ==========================================
+   MOBILE OPTIMIZATION
+   ========================================== */
+
+/* Ensure minimum touch target size (44x44px) */
+button, a.btn, .btn, input[type="button"], input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 10px 16px;
+}
+
+/* Mobile-friendly form inputs */
+input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px;
+    border-radius: 4px;
+}
+
+/* Safe area for notch phones */
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+        padding-top: max(0px, env(safe-area-inset-top));
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+    
+    .navbar {
+        padding-left: max(0.5rem, env(safe-area-inset-left));
+        padding-right: max(0.5rem, env(safe-area-inset-right));
+    }
+}
+
+/* Mobile navbar improvements */
+@media (max-width: 991px) {
+    .navbar {
+        padding: 0.5rem 0;
+    }
+    
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem !important;
+    }
+}
+
+/* Responsive images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Touch-friendly spacing on mobile */
+@media (max-width: 768px) {
+    .container-fluid, .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Very small devices (max 360px width) */
+@media (max-width: 360px) {
+    .container, .container-fluid {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    
+    .btn {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Disable font scaling on landscape */
+@media (orientation: landscape) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+}
+
+/* Loading spinner for mobile */
+.spinner-border {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* Mobile card improvements */
+@media (max-width: 576px) {
+    .card {
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+/* Mobile modal improvements */
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 1rem auto;
+    }
+    
+    .modal-content {
+        border-radius: 8px;
+    }
+}
+
+/* Smooth scrolling for mobile */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Prevent input zoom on iOS */
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="tel"],
+input[type="text"],
+select,
+textarea {
+    font-size: 16px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Mobile keyboard-friendly spacing */
+@media (max-height: 600px) {
+    body {
+        padding-top: 0;
+    }
+    
+    .navbar {
+        padding: 0.25rem 0;
+    }
+}
+
+/* High-resolution screens optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Use lighter font weight for sharper text */
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+    }
+    
+    .card {
+        background-color: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+    }
+    
+    input, textarea, select {
+        background-color: #333;
+        color: #e0e0e0;
+        border-color: #555;
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* PWA app bar styling */
+.app-header {
+    padding: max(0.5rem, env(safe-area-inset-top)) 1rem max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Mobile-friendly table */
+@media (max-width: 576px) {
+    table {
+        font-size: 0.9rem;
+    }
+    
+    table th, table td {
+        padding: 0.5rem;
+    }
+}
+
+/* Badge improvements on mobile */
+.badge {
+    display: inline-block;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Better list display on mobile */
+@media (max-width: 768px) {
+    ul, ol {
+        padding-left: 1.5rem;
+    }
+    
+    li {
+        margin-bottom: 0.5rem;
+    }
+}
+

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}My Houses - IMPERIAL HOUSE{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4 mb-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>My Houses</h1>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ url_for('landlord.add_house_step1') }}" class="btn btn-danger">
+                <i class="bi bi-plus-circle"></i> Add New House
+            </a>
+        </div>
+    </div>
+
+    {% if houses.items %}
+    <div class="row g-4 mb-4">
+        {% for house in houses.items %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow">
+                {% if house.main_image %}
+                    <img src="{{ url_for('static', filename='uploads/' + house.main_image) }}" class="card-img-top" alt="{{ house.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="bi bi-image" style="font-size: 32px;"></i>
+                    </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h5 class="card-title">{{ house.title }}</h5>
+                    <p class="text-muted">{{ house.city }} - {{ house.address[:30] }}</p>
+                    
+                    <div class="mb-3">
+                        <h4 class="text-danger">KES {{ "{:,.0f}".format(house.rent_price) }}/{{ house.rent_period }}</h4>
+                        <small>{{ house.bedrooms }} Bedrooms • {{ house.bathrooms }} Bathrooms</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {% if house.posted_after_payment %}
+                            <span class="badge bg-success">Published</span>
+                        {% else %}
+                            <span class="badge bg-warning">Pending Payment</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('landlord.edit_house', house_id=house.id) }}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a href="{{ url_for('main.view_house', house_id=house.id) }}" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-eye"></i> View
+                        </a>
+                        {% if not house.posted_after_payment %}
+                        <a href="{{ url_for('payment.initiate_payment', house_id=house.id) }}" class="btn btn-danger btn-sm">
+                            <i class="bi bi-credit-card"></i> Pay & Publish
+                        </a>
+                        {% endif %}
+                        <form method="POST" action="{{ url_for('landlord.delete_house', house_id=house.id) }}" style="display: inline;">
+                            <button type="submit" class="btn btn-outline-danger btn-sm w-100" onclick="return confirm('Delete this house?')">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if houses.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('landlord.my_houses', page=1) }}">First</a></li>
+                <li class="page-item"><a class="page-link" href="{{ url_for('landlord.my_houses', page=houses.prev_num) }}">Previous</a></li>
+            {% endif %}
+            
+            {% for page_num in houses.iter_pages() %}
+                {% if page_num %}
+                    <li class="page-item {% if page_num == houses.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('landlord.my_houses', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if houses.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('landlord.my_houses', page=houses.next_num) }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="{{ url_for('landlord.my_houses', page=houses.pages) }}">Last</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% else %}
+    <div class="alert alert-info text-center py-5">
+        <i class="bi bi-inbox" style="font-size: 48px;"></i>
+        <p class="mt-3">No houses yet. <a href="{{ url_for('landlord.add_house_step1') }}">Add your first house</a></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

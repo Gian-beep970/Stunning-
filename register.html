@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}Register - IMPERIAL HOUSE{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- User Type Selection -->
+            <div class="row g-3 mb-4">
+                <!-- Tenant Card -->
+                <div class="col-md-6">
+                    <div class="card border-2 user-type-card cursor-pointer" onclick="selectUserType('tenant')" style="cursor: pointer;">
+                        <div class="card-body text-center py-4">
+                            <i class="bi bi-person text-info" style="font-size: 48px;"></i>
+                            <h5 class="mt-3 mb-2">I'm a Tenant</h5>
+                            <p class="text-muted mb-0">Looking for a rental house</p>
+                            <p class="text-success mt-2"><strong>FREE</strong></p>
+                            <input type="radio" name="user_type_select" value="tenant" style="display: none;" id="tenant_radio">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Landlord Card -->
+                <div class="col-md-6">
+                    <div class="card border-2 border-danger user-type-card cursor-pointer" onclick="selectUserType('landlord')" style="cursor: pointer; border: 3px solid #dc3545;">
+                        <div class="card-body text-center py-4">
+                            <i class="bi bi-building text-danger" style="font-size: 48px;"></i>
+                            <h5 class="mt-3 mb-2">I'm a Landlord</h5>
+                            <p class="text-muted mb-0">Listing rental properties</p>
+                            <p class="text-danger mt-2"><strong>Pay KES 5,000</strong> per listing</p>
+                            <input type="radio" name="user_type_select" value="landlord" style="display: none;" id="landlord_radio">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center mb-4">
+                        <i class="bi bi-person-plus text-danger"></i> Register
+                    </h2>
+                    
+                    <!-- Information Box -->
+                    <div id="userTypeInfo" class="alert alert-info mb-4" style="display: none;">
+                        <strong id="infoTitle">Landlord Registration</strong> - 
+                        <span id="infoText">You can list properties and earn by renting them out. Each property listing costs KES 5,000.</span>
+                    </div>
+                    
+                    <form method="POST" novalidate>
+                        <input type="hidden" name="user_type" id="user_type" value="" required>
+                        
+                        <div class="mb-3">
+                            <p class="form-label fw-bold">Selected Role: <span id="selectedRole" class="badge bg-danger">Please select above</span></p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="e.g., 0718357417" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger w-100 mb-3" id="submitBtn">
+                            <i class="bi bi-check-circle"></i> Register
+                        </button>
+                    </form>
+
+                    <p class="text-center text-muted small">
+                        <i class="bi bi-info-circle"></i> Select your role above before registering
+                    </p>
+
+                    <p class="text-center">
+                        Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectUserType(type) {
+    // Set hidden field
+    document.getElementById('user_type').value = type;
+    
+    // Update radio buttons
+    document.getElementById('tenant_radio').checked = (type === 'tenant');
+    document.getElementById('landlord_radio').checked = (type === 'landlord');
+    
+    // Highlight selected card
+    document.querySelectorAll('.user-type-card').forEach(card => {
+        card.style.border = '2px solid #ccc';
+        card.style.backgroundColor = '#fff';
+    });
+    
+    const selectedCard = document.querySelector(`[onclick="selectUserType('${type}')"]`);
+    if (type === 'landlord') {
+        selectedCard.style.border = '3px solid #dc3545';
+        selectedCard.style.backgroundColor = '#fff5f5';
+    } else {
+        selectedCard.style.border = '3px solid #0dcaf0';
+        selectedCard.style.backgroundColor = '#f0f7ff';
+    }
+    
+    // Update info box
+    const infoBox = document.getElementById('userTypeInfo');
+    const infoTitle = document.getElementById('infoTitle');
+    const infoText = document.getElementById('infoText');
+    const selectedRole = document.getElementById('selectedRole');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    infoBox.style.display = 'block';
+    
+    if (type === 'landlord') {
+        infoTitle.textContent = '🏢 Landlord Registration';
+        infoText.innerHTML = '<strong>💰 Payment Required:</strong> Each property listing costs <strong>KES 5,000</strong>. After you register and complete payment via M-PESA, Airtel Money, or CO-OP Bank, your property will be automatically posted on IMPERIAL HOUSE.';
+        selectedRole.textContent = 'Landlord (Pay KES 5,000 per listing)';
+        selectedRole.className = 'badge bg-danger';
+    } else {
+        infoTitle.textContent = '👥 Tenant Registration';
+        infoText.innerHTML = '<strong>✅ Free to Register:</strong> Browse all available properties, save your favorites, and message landlords directly. No fees!';
+        selectedRole.textContent = 'Tenant (FREE)';
+        selectedRole.className = 'badge bg-success';
+    }
+    
+    // Visual feedback on submit button
+    submitBtn.classList.add('pulse-animation');
+    setTimeout(() => submitBtn.classList.remove('pulse-animation'), 500);
+}
+
+// Validate form before submission
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    
+    form.addEventListener('submit', function(e) {
+        const userType = document.getElementById('user_type').value.trim();
+        
+        if (!userType) {
+            e.preventDefault();
+            alert('⚠️ Please select if you are a Tenant or Landlord before registering.');
+            document.querySelector('.user-type-card').focus();
+            return false;
+        }
+    });
+    
+    // Add hover effects to cards
+    document.querySelectorAll('.user-type-card').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('mouseover', function() {
+            this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        });
+        card.addEventListener('mouseout', function() {
+            this.style.boxShadow = '';
+        });
+    });
+});
+</script>
+
+<style>
+.user-type-card {
+    transition: all 0.3s ease;
+    border: 2px solid #ccc !important;
+}
+
+.user-type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.pulse-animation {
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+</style>
+{% endblock %}

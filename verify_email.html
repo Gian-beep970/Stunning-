@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Email - IMPERIAL HOUSE{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body p-5 text-center">
+                    <!-- Icon Animation -->
+                    <div class="mb-4" style="animation: fadeInScale 0.6s ease-in-out;">
+                        <i class="bi bi-shield-check text-success" style="font-size: 60px;"></i>
+                    </div>
+
+                    <h2 class="card-title mb-2">Verify Your Account</h2>
+                    <p class="text-muted mb-4">
+                        We sent a verification code to your <strong>{{ verification_method.upper() }}</strong>
+                    </p>
+
+                    <!-- User Info -->
+                    <div class="alert alert-info mb-4">
+                        <small>Username: <strong>{{ username }}</strong></small>
+                    </div>
+
+                    <!-- Verification Form -->
+                    <form method="POST" novalidate>
+                        <div class="mb-4">
+                            <label for="code" class="form-label">Enter 6-Digit Code</label>
+                            <input type="text" 
+                                   class="form-control form-control-lg text-center" 
+                                   id="code" 
+                                   name="code" 
+                                   maxlength="6" 
+                                   placeholder="000000"
+                                   autocomplete="off"
+                                   inputmode="numeric"
+                                   required
+                                   style="font-size: 24px; letter-spacing: 10px; font-weight: bold;">
+                            <small class="text-muted d-block mt-2">Code expires in 10 minutes</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 btn-lg mb-3">
+                            <i class="bi bi-check-circle"></i> Verify Code
+                        </button>
+                    </form>
+
+                    <!-- Resend Code Link -->
+                    <div class="mb-3">
+                        <p class="text-muted small">
+                            Didn't receive the code?
+                        </p>
+                        <a href="{{ url_for('auth.resend_code', username=username) }}" 
+                           class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-clockwise"></i> Resend Code
+                        </a>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Support Info -->
+                    <div class="alert alert-light" role="alert">
+                        <small class="text-muted">
+                            <i class="bi bi-info-circle"></i>
+                            Having trouble? This verification step is mandatory for security.<br>
+                            If you don't receive the code, check your spam folder.
+                        </small>
+                    </div>
+
+                    <!-- Back to Login -->
+                    <a href="{{ url_for('auth.login') }}" class="link-secondary">
+                        Back to Login
+                    </a>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="card mt-3 border-0 bg-light">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="bi bi-question-circle text-info"></i> Verification Methods</h6>
+                    <ul class="list-unstyled mb-0 small">
+                        <li>✉️ Email: Check your inbox</li>
+                        <li>📱 SMS: Check your messages</li>
+                        <li>💬 WhatsApp: Check your chats</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Auto-format verification code input */
+#code {
+    font-family: 'Courier New', monospace;
+}
+
+#code:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+}
+</style>
+
+<script>
+// Auto-focus and validate input
+document.getElementById('code').addEventListener('input', function(e) {
+    // Only allow numbers
+    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    
+    // Auto-submit if 6 digits entered
+    if (e.target.value.length === 6) {
+        // Could auto-submit here if desired
+        // document.querySelector('form').submit();
+    }
+});
+
+// Focus on code input on page load
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('code').focus();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,119 @@
+📋 IMPERIAL HOUSE - DEPLOYMENT CHECKLIST
+
+Copy and paste this into a text file and check off each step as you complete it:
+
+═══════════════════════════════════════════════════════════════
+PHASE 1: GITHUB SETUP (5 minutes)
+═══════════════════════════════════════════════════════════════
+
+☐ Step 1: Visit https://github.com/signup
+☐ Step 2: Create GitHub account (email, password, username)
+☐ Step 3: Verify email (check inbox, click link)
+☐ Step 4: Go to https://github.com/new
+☐ Step 5: Create repository named "imperial-house"
+☐ Step 6: Upload all files from c:\tennis_payment_system\ folder
+          (Except: instance/, __pycache__, .env)
+☐ Step 7: Commit with message "Initial commit"
+
+🎯 Result: Your code is now on GitHub!
+Your GitHub URL will be: https://github.com/YOUR_USERNAME/imperial-house
+
+═══════════════════════════════════════════════════════════════
+PHASE 2: RENDER DEPLOYMENT (5 minutes)
+═══════════════════════════════════════════════════════════════
+
+☐ Step 8: Visit https://render.com
+☐ Step 9: Click "Sign Up" → Choose "Continue with GitHub"
+☐ Step 10: Authorize Render to access GitHub
+☐ Step 11: Click "+ New" → "Web Service"
+☐ Step 12: Connect your GitHub account
+☐ Step 13: Select "imperial-house" repository
+☐ Step 14: Fill deployment settings:
+           - Name: imperial-house
+           - Region: Frankfurt
+           - Build: pip install -r requirements.txt && python run.py init_db
+           - Start: gunicorn -w 4 -b 0.0.0.0:$PORT run:app
+
+☐ Step 15: Add environment variables:
+           - FLASK_ENV = production
+           - SECRET_KEY = L_a3wKWilZ6GUKfGn7MMlL0V_XgDd5izT90verXZ5Ys
+
+☐ Step 16: Click "Create Web Service"
+☐ Step 17: Wait 2-3 minutes for deployment
+☐ Step 18: See "Live" status (green)
+
+🎯 Result: App is deployed!
+Your Live URL: https://imperial-house.onrender.com
+(Your exact subdomain may be different)
+
+═══════════════════════════════════════════════════════════════
+PHASE 3: TESTING (5 minutes)
+═══════════════════════════════════════════════════════════════
+
+☐ Step 19: Copy your Render URL
+☐ Step 20: Test on desktop browser
+           - Homepage loads? ✓
+           - Can register? ✓
+           - Can login? ✓
+
+☐ Step 21: Test on mobile phone
+           - Responsive? ✓
+           - All buttons work? ✓
+           - Photos show? ✓
+
+☐ Step 22: Test on different networks
+           - Safaricom? ✓
+           - Airtel? ✓
+           - Other networks? ✓
+
+🎯 Result: Everything working!
+
+═══════════════════════════════════════════════════════════════
+PHASE 4: GO LIVE (Ongoing)
+═══════════════════════════════════════════════════════════════
+
+☐ Step 23: Share URL with first beta users
+☐ Step 24: Get feedback
+☐ Step 25: Monitor Render logs for errors
+☐ Step 26: Make improvements
+☐ Step 27: (Optional) Add custom domain
+
+🎯 Result: Live rental platform in Kenya!
+
+═══════════════════════════════════════════════════════════════
+
+📊 TRACKING
+
+Total estimated time: 15-20 minutes
+
+Current Phase: [ ] 1 GitHub  [ ] 2 Render  [ ] 3 Testing  [ ] 4 Live
+
+Time spent so far: _____ minutes
+Problems encountered: [ ] None  [ ] Minor  [ ] Major
+
+═══════════════════════════════════════════════════════════════
+
+📝 IMPORTANT NOTES
+
+★ SECRET_KEY: L_a3wKWilZ6GUKfGn7MMlL0V_XgDd5izT90verXZ5Ys
+  ^ Copy this exactly into Render environment variables
+
+★ Region: Frankfurt
+  ^ This is closest to Kenya - gives fastest speed
+
+★ Don't upload these to GitHub:
+  - instance/ folder
+  - __pycache__/ folders
+  - .env file
+  - *.pyc files
+
+★ If deployment fails:
+  1. Check Render logs
+  2. Try "Manual Deploy" button
+  3. Verify environment variables are set
+
+═══════════════════════════════════════════════════════════════
+
+✅ When you finish: Your app is live at your Render URL!
+Anyone in Kenya can visit and use it! 🎉
+
